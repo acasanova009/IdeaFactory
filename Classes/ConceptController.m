@@ -8,7 +8,7 @@
 
 #import "ConceptController.h"
 #import "URLConst.h"
-#import "MasterButton.h"
+
 #import "AlertStrings.h"
 @interface ConceptController ()
 {
@@ -18,11 +18,14 @@
 @end
 
 @implementation ConceptController
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+}
 -(IBAction)backButtonDidPressed:(id)sender {
+    
     [self sortConcepts];
     if ([self.conceptTitle.text isEqualToString:kEmptyText]) {
-
+        
         UIAlertView * alertEmpty = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Empty name.", @"There is no name written") message:
                                     NSLocalizedString(@"Write the name of the list and then touch add.", @"Add name of list") delegate:nil cancelButtonTitle:
                                     NSLocalizedString(@"All right.", @"Used text for dismissing a presented alert view. As Ok") otherButtonTitles: nil];
@@ -31,18 +34,18 @@
         return;
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(realllocateConceptList:ofList:andChangeItsNameTo:)]) {
-        if(![self.delegate realllocateConceptList:[NSArray arrayWithArray:listsConcepts] ofList:oldListName andChangeItsNameTo:self.conceptTitle.text])
+        if(![self.delegate realllocateConceptList:[NSArray arrayWithArray:listsConcepts] ofList:oldListName andChangeItsNameTo:[self.conceptTitle.text stringByAppendingPathExtension:kTextSuffix]])
         {
             UIAlertView * alertEmpty = [[UIAlertView alloc]initWithTitle:
                                         NSLocalizedString(@"Existing Name.", @"The name you want to use, already exists.") message:
                                         NSLocalizedString(@"The name of the desired list, already exists. Try a different one.", @"Duplicating LIST") delegate:nil cancelButtonTitle:
                                         NSLocalizedString(@"All right.", @"Used text for dismissing a presented alert view. As Ok") otherButtonTitles: nil];
-
+            
             [self.conceptTitle becomeFirstResponder];
             [alertEmpty show];
-        
-        }
             
+        }
+        
     }
 }
 
@@ -51,7 +54,7 @@
 
     [self.view setNeedsDisplay];
     oldListName = [list copy];
-    [self.conceptTitle setText:oldListName];
+    [self.conceptTitle setText:[oldListName stringByDeletingPathExtension]];
 
     [self.conceptTitle setEnabled:isAllowed];
 
@@ -67,12 +70,6 @@
 {
     [super viewDidLoad];
     listsConcepts = [NSMutableArray array];
-    [self.backButton setCenter:CGPointMake(self.backButton.center.x, -50)];
-    [UIView animateWithDuration:0.4 animations:^{
-
-        [self.backButton setCenter:CGPointMake(self.backButton.center.x, 20)];
-        
-    }];
 
    
 }
@@ -98,7 +95,8 @@
     cell.textLabel.text =[listsConcepts objectAtIndex:indexPath.row];
     
     cell.textLabel.font = [UIFont fontWithName:kStringFont size:20];
-    [cell.textLabel setTextColor:[UIColor whiteColor]];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    [cell setBackgroundColor:[UIColor clearColor]];
     return cell;
 }
 
@@ -123,26 +121,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    
-}
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{ return YES;
-}
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-
-//    if ([textField tag] == 10) {
-//        [self.masterButton changeMasterStateTo:masterDone];
-//    }
-//    else
-//    {
-    [self.masterButton changeMasterStateTo:masterHide];
-//    }
-
-}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
 
@@ -164,41 +143,6 @@
 }
 #pragma mark - Table view delegate
 
-
-- (IBAction)masterPressed:(MasterButton*)sender {
-    switch (sender.currentState) {
-        case masterDone:
-
-
-            [self.conceptTitle resignFirstResponder];
-            [self.tableView setEditing:NO animated:YES];
-            [sender changeMasterStateTo:masterEdit];
-
-            break;
-        case masterEdit:
-            
-
-
-            [self.conceptTitle becomeFirstResponder];
-            [self.tableView setEditing:YES animated:YES];
-            [sender changeMasterStateTo:masterHide];
-
-            break;
-        case masterHide:
-            [self.textField resignFirstResponder];
-            [self.conceptTitle resignFirstResponder];
-            if (sender.lastState == masterHide) {
-
-                [sender changeMasterStateTo:masterDone];
-                
-            }
-            else
-            [sender changeMasterStateTo:masterEdit];
-
-        default:
-            break;
-    }
-}
 
 - (void)sortConcepts {
     NSArray *sortedArray;

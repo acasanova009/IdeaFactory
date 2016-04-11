@@ -20,7 +20,8 @@ enum premiseState {
 
     premiseEdit =100,
     premiseDelete = 101,
-    premiseCancel =102,
+    premiseCancel =102
+
 
 
     
@@ -38,7 +39,7 @@ enum premiseState {
 
 
 -(void)willDeleteCellAtIndexPath:(NSIndexPath*)indexPath;
--(void)shouldChangeToIdeaStateCellAtIndex:(NSIndexPath*)indexPath;
+-(void)shouldChangeToEditingStateCellAtIndex:(NSIndexPath*)indexPath;
 -(void)shouldChangeToPresentationStateCellAtIndex:(NSIndexPath*)indexPath;
 @end
 

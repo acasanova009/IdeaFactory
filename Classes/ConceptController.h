@@ -21,15 +21,16 @@
 
 
 -(void)defineTitleOfList:(NSString*)list backButton:(NSString*)backFolder andSetListsOfConcepts:(NSArray*)concepts andAllowEditing:(BOOL)isAllowed;
-- (IBAction)masterPressed:(MasterButton*)sender;
-- (void)sortConcepts;
 
-@property (weak, nonatomic) IBOutlet MasterButton *backButton;
+
+
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UITextField *textLabelConcepts;
 
 @property (nonatomic,assign) id <ConceptsNavigationProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *conceptTitle;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet MasterButton *masterButton;
+;
 -(IBAction)backButtonDidPressed:(id)sender;
 @end

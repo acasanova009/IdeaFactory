@@ -23,13 +23,6 @@
 #define kColorPContext  0x300571  //rgb(48,5,113)
 #define kColorPSuplement 0x7F44D6  //rgb(127,68,214)
 #define kColorPWeak  0x966BD6  //rgb(150,107,214)
-/*
- BUtton Colors
- 86
- 55
- 194
- */
-
 //*** Complementary Color:
 //
 #define kColorYButton   0xFFE500

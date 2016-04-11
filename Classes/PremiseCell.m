@@ -60,7 +60,8 @@
         [self setFrame:CGRectMake(0, 0, 320, 50)];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
-        [self movingControlerSetUp];
+        
+//        [self movingControlerSetUp];
         [self leftViewSetUp];
         [self rightViewSetUp];
         self.backgroundColor = [UIColor clearColor];
@@ -73,28 +74,54 @@
     return self;
     
 }
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self backGroundColorsSetUp];
+        [self setFrame:CGRectMake(0, 0, 320, 50)];
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        
+        //        [self movingControlerSetUp];
+        [self leftViewSetUp];
+        [self rightViewSetUp];
+        self.backgroundColor = [UIColor clearColor];
+        
+        _cellIsActive =NO;
+    }
+    return self;
+}
+
 
 -(void)prepareForReuse
 {
-    [self changePremiseCellStateTo:premisePresentation];
+    NSLog(@"");
+    [self willTransitionToState:UITableViewCellStateDefaultMask];
+    [self changePremiseCellStateTo:premiseIdea];
+//    [self changePremiseCellStateTo:premisePresentation];
+//    [self backGroundColorsSetUp];
+//    [self setFrame:CGRectMake(0, 0, 320, 50)];
+//    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    self.leftView =nil;
+//    self.rightView = nil;
+    
+//    [self movingControlerSetUp];
+//    [self leftViewSetUp];
+//    [self rightViewSetUp];
+//    self.backgroundColor = [UIColor clearColor];
+    
+//    _cellIsActive =YES;
+//    [self changePremiseCellStateTo:premiseIdea];
+    
 }
 
 -(void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
-    if (self.cellIsActive) {
-        return;
-    }
-    if (self.currentState == premiseIdea ) {
-        return;
-    }
-    if (editing) 
+    if (editing)
             [self changePremiseCellStateTo:premiseEdit];
         else
-        {
-
-                [self changePremiseCellStateTo:premisePresentation];
-            
-        }
+            [self changePremiseCellStateTo:premisePresentation];
 //
     [super setEditing:editing animated:animated];
 }
@@ -167,17 +194,17 @@
 
             break;
 
-        case premiseEdit:
-
-
-            [self changePremiseCellStateTo:premiseDelete];
-
-            break;
+//        case premiseEdit:
+//
+//
+//            [self changePremiseCellStateTo:premiseDelete];
+//
+//            break;
         case premisePresentation:
 
 
-            if (self.delegate && [self.delegate respondsToSelector:@selector(shouldChangeToIdeaStateCellAtIndex:)])
-            [self.delegate shouldChangeToIdeaStateCellAtIndex:indexPath];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(shouldChangeToEditingStateCellAtIndex:)])
+            [self.delegate shouldChangeToEditingStateCellAtIndex:indexPath];
 
             break;
         default:
@@ -185,6 +212,16 @@
     }
     
 }
+- (void)animateDeletion
+{
+    NSIndexPath * indexPath = [self currentIndexPath];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(willDeleteCellAtIndexPath:)])
+            [self.delegate willDeleteCellAtIndexPath:indexPath];
+    }];
+}
+
 -(void)changePremiseCellStateTo:(enum premiseState)state
 {
     [self animateLeftViewToPosition:kLeftViewNormalPosition];
@@ -194,13 +231,9 @@
         [self.delegate premiseWillChangeToState:state];
 
     
-
-
     _lastCurrentState =_currentState;
-    
     _currentState = state;
-//    NSLog(@"Last State: %i",_lastCurrentState);
-//    NSLog(@"CurreState: %i",_currentState);
+    
     switch (state) {
         case premisePresentation:
             [self presentText:YES];
@@ -240,13 +273,18 @@
         case premiseDelete:
 
 
-            [self changePremiseCellStateTo:premisePresentation];
+//            [self changePremiseCellStateTo:premisePresentation];
             
-            [self animateForDeletion];
+            [self animateDeletion];
+    
             break;
-        default:
+            default:
             break;
+            
+        
+            
     }
+    
     [self moveLeftLabelReadyForEditing];
 
 
@@ -263,7 +301,7 @@
         
         
         if ([self.leftLabel.text isEqualToString:kEmptyText]) 
-            self.leftLabel.text =NSLocalizedString(@"Write name of premise", @"WriteNameOfPremise beacuse it is empty");
+            self.leftLabel.text =NSLocalizedString(@"Premise title", @"WriteNameOfPremise beacuse it is empty");
 
 
     }
@@ -278,9 +316,9 @@
 {
     _leftText.text =_leftLabel.text;
 
-    if ([_leftLabel.text isEqualToString:NSLocalizedString(@"Write name of premise", @"WriteNameOfPremise beacuse it is empty")]) {
+    if ([_leftLabel.text isEqualToString:NSLocalizedString(@"Premise title", @"WriteNameOfPremise beacuse it is empty")]) {
         _leftText.text =kEmptyText;
-        _leftText.placeholder =NSLocalizedString(@"Write name of premise", @"WriteNameOfPremise beacuse it is empty");
+        _leftText.placeholder =NSLocalizedString(@"Premise title", @"WriteNameOfPremise beacuse it is empty");;
     }
     
     [_leftLabel setHidden:YES];
@@ -303,8 +341,6 @@
 }
 -(void)animateRightViewForRandom
 {
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(controllerShouldEnable:)])
-//        [self.delegate controllerShouldEnable:NO];
 
     [UIView animateWithDuration:0.4f animations:^{
         [_rightView setCenter:CGPointMake(kRightViewHidden, 30)];
@@ -321,11 +357,6 @@
              }
                  
                 ];
-
-        
-
-
-
     }];
 
 }
@@ -340,7 +371,6 @@
 {
     CGRect magicFrame;
 
-        [magicButton setBackgroundImage:[UIImage imageNamed:@"buttonDisc"] forState:UIControlStateNormal ];
         magicFrame = CGRectMake(location, 0, kFlyButtonSize, kFlyButtonSize);
         magicButton.titleLabel.font = fontMain;
        
@@ -380,19 +410,6 @@
     
 }
 
--(void)animateForDeletion
-{
-
-    NSIndexPath * indexPath = [self currentIndexPath];
-
-    [UIView animateWithDuration:0.2 animations:^{
-
-        [self.leftView setCenter:CGPointMake(-130, self.leftView.center.y)];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(willDeleteCellAtIndexPath:)])
-        [self.delegate willDeleteCellAtIndexPath:indexPath];
-    }];
-
-}
 
 #pragma mark - Font & Background
 
@@ -404,23 +421,7 @@
     fontSmall = [UIFont fontWithName:kStringFont size:20];
     
 }
--(void)movingControlerSetUp
-{
-    controllerButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [controllerButton setFrame:CGRectMake(350, 0,60,kFlyButtonSize)];
-
-    [controllerButton setBackgroundImage:[UIImage imageNamed:@"buttonDisc"] forState:UIControlStateNormal ];
-    controllerButton.titleLabel.font = [UIFont fontWithName:kStringFont  size:30];
-    [controllerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
-    [controllerButton addTarget:self action:@selector(controllerButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
-
-
-    [self.contentView addSubview:controllerButton];
-    
-    
-}
 #pragma mark - Left View
 
 -(void)leftViewSetUp
@@ -449,13 +450,14 @@
 }
 -(void)leftTextSetUpInView:(UIView*)view
 {
-    _leftText = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 200, 30)];
+    _leftText = [[UITextField alloc]initWithFrame:CGRectMake(10, 6, 200, 30)];
     _leftText.placeholder = NSLocalizedString(@"Write name of premise", @"WriteNameOfPremise beacuse it is empty");
     [_leftText setFont:fontMain];
     _leftText.textColor = [UIColor whiteColor];
     [_leftText setBorderStyle:UITextBorderStyleNone];
     [_leftText setBackgroundColor:[UIColor clearColor]];
     [_leftText setHidden:YES];
+    
     _leftText.clearButtonMode = UITextFieldViewModeWhileEditing;
     _leftText.autocapitalizationType = UITextAutocapitalizationTypeWords;
     [view addSubview:_leftText];
@@ -513,7 +515,11 @@
     [view addSubview:_rightLabel];
     
 }
-
+-(NSString *)description
+{
+    NSString * des = [NSString stringWithFormat:@"\n RV %@ and LV %@",[self.rightView description], [self.leftView description]];
+        return [[super description]stringByAppendingString:des];
+}
 
 
 @end

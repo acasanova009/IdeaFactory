@@ -13,12 +13,10 @@
 -(void)reloadAllKeys;
 @end 
 @interface InfoController : UIViewController <UIAlertViewDelegate,MFMailComposeViewControllerDelegate>
-//-(IBAction)wordsArchive:(id)sender;
--(IBAction)preferences:(id)sender;
 
 @property (nonatomic,assign) id <InfoProtocol> delegate;
 
--(IBAction)finishedWritingReview:(UIStoryboardSegue*)sender;
-- (IBAction)tellMeAboutMyApp:(id)sender;
+- (IBAction)rateAction:(id)sender;
+- (IBAction)sendAction:(id)sender;
 
 @end

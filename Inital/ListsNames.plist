@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<false/>
+		<string>Temperament.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Professionals.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Popular Creatures.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Nordic Creatures.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Natural.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Mythical Creatures.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Greek Creatures.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Good.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Exotic.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Condition.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Bad.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Artificial.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Appearance.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Animals.txt</string>
+	</array>
+	<array>
+		<false/>
+		<string>Ancient Professions.txt</string>
+	</array>
+</array>
+</plist>

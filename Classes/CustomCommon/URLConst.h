@@ -10,32 +10,30 @@
 #define Table_URLConst_h
 
 #define urlLibary @"Library/"
-#define urlLibaryFactory @"Library/Factory/"//@"Library/Factory/"
 #define urlLibaryPreferences @"Library/Preferences/"
 #define urlLibaryTmp @"Library/tmp/"
 #define urlTmp @"tmp/"
 
 #define urlDocuments @"Documents/"
-#define filePreferences @".factoryPreferenece"
-#define filePremisesArch @".premiseArchive.arch"
-#define filePremisesKeys @".keysPremises"
-#define fileRightLabelKeys @".rightKeysPremise"
+
 #define doesnt !
 
+
 #define urlLibary @"Library/"
-#define urlLibaryFactory @"Library/Factory/"
+#define urlLibaryFactory @"Library/Preferences/"
 #define urlLibaryPreferences @"Library/Preferences/"
 #define urlLibaryTmp @"Library/tmp/"
 #define urlTmp @"tmp/"
 #define urlDocuments @"Documents/"
 #define urlFactory @"Factory"
 
-#define filePreferences @".factoryPreferenece"
-#define filePremisesArch @".premiseArchive.arch"
-#define filePremisesKeys @".keysPremises"
-#define fileRightLabelKeys @".rightKeysPremise"
+#define filePreferences @"FactoryPreferenece.saf"
+#define filePremisesArch @"ArchPre.saf"
+#define filePremisesKeys @"KeysPre.saf"
+#define fileRightLabelKeys @"RKeysPre.saf"
 
-#define kDatabase @"Database"
+#define kDatabase @"Database.plist"
+#define kListNames @"ListsNames.plist"
 #define doesnt !
 
 

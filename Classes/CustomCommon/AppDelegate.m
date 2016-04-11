@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "StartController.h"
+
 #import "PremiseController.h"
-#import "FinderController.h"
+
 #import "URLConst.h"
 #import "BWFileManagementAdditions.h"
 @implementation AppDelegate
@@ -48,13 +48,12 @@
 -(void)saveData
 {
 
-    if ([[self.window rootViewController]class]== [StartController class] ) {
-        StartController *startC = (StartController*)[self.window rootViewController];
-        if (startC)
+    if ([[self.window rootViewController]class]== [UINavigationController class] ) {
+        UINavigationController *nav = (UINavigationController*)[self.window rootViewController];
+        if (nav)
         {
-            PremiseController * premiseC = (PremiseController*) [startC presentedViewController];
+            PremiseController * premiseC = (PremiseController*) nav.childViewControllers[0];
             [premiseC saveData];
-            [[NSFileManager defaultManager]iterateThroughRootHierarchyWhileUpdatingRootArchives:[NSURL URLsetUpFrom:urlDocuments] WithDepth:[NSMutableArray arrayWithObject:@0] AndDelegate:premiseC];
         }
 
     }
